@@ -23,23 +23,30 @@ public class MinesweeperGame {
     public static void main(String[] args) {
         showGameStartComment();
         initializeGame();
-
         while (true) {
-            showBoard();
+            try {
+                showBoard();
 
-            if (doseUserClearTheGame()) {
-                System.out.println("지뢰를 모두 찾았습니다. GAME CLEAR!");
-                break;
-            }
-            if (doseUserFailTheGame()) {
-                System.out.println("지뢰를 밟았습니다. GAME OVER!");
-                break;
-            }
+                if (doseUserClearTheGame()) {
+                    System.out.println("지뢰를 모두 찾았습니다. GAME CLEAR!");
+                    break;
+                }
+                if (doseUserFailTheGame()) {
+                    System.out.println("지뢰를 밟았습니다. GAME OVER!");
+                    break;
+                }
 
-            String cellInput = getCellInputFromUser();
-            String userActionInput = getActionInputFromUser();
-            actOnCell(cellInput, userActionInput);
+                String cellInput = getCellInputFromUser();
+                String userActionInput = getActionInputFromUser();
+                actOnCell(cellInput, userActionInput);
+            } catch (AppException e) {
+                System.out.println(e.getMessage());
+            } catch (Exception e) { // 의도하지 않은 예외가 터지면 프로그램이 터지니까 이거도 잡는다.
+                System.out.println("프로그램에 문제가 생겼습니다."); // 사용자에게 보여주는 예외 정보
+                // e.printStackTrace(); // 개발자가 확인할 정보. 하지만 실무에서는 안티패턴. 예외 상황에선 로그 시스템으로 남긴다.
+            }
         }
+
     }
 
     private static void actOnCell(String cellInput, String userActionInput) {
@@ -63,8 +70,7 @@ public class MinesweeperGame {
             checkIfGameIsOver();
             return;
         }
-
-        System.out.println("잘못된 번호를 선택하셨습니다.");
+        throw new AppException("잘못된 번호를 선택하셨습니다.");
     }
 
     private static void changeGameStatusToLose() {
@@ -125,11 +131,14 @@ public class MinesweeperGame {
     private static boolean isAllCellOpened() {
         return Arrays.stream(BOARD)
                 .flatMap(Arrays::stream)
-                .noneMatch(cell -> cell.equals(CLOSE_CELL_SIGN));
+                .noneMatch(CLOSE_CELL_SIGN::equals);
     }
 
     private static int convertRowFrom(char cellInputRow) {
-        return Character.getNumericValue(cellInputRow) - 1;
+        int convertedRow = Character.getNumericValue(cellInputRow) - 1;
+        if (convertedRow >= BOARD_ROW_SIZE)
+            throw new AppException("잘못된 입력입니다. [1~8]까지의 입력만이 가능합니다.");
+        return convertedRow;
     }
 
     private static int convertColFrom(char cellInputCol) {
@@ -155,7 +164,7 @@ public class MinesweeperGame {
             case 'j':
                 return 9;
             default:
-                return -1;
+                throw new AppException("잘못된 입력입니다. [a-j]까지의 입력만이 가능합니다.");
         }
     }
 
