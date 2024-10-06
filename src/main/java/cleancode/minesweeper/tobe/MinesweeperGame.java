@@ -121,6 +121,7 @@ public class MinesweeperGame {
     private static void changeGameStatusToWin() {
         gameStatus = 1;
     }
+
     private static boolean isAllCellOpened() {
         return Arrays.stream(BOARD)
                 .flatMap(Arrays::stream)
@@ -185,38 +186,44 @@ public class MinesweeperGame {
 
         for (int rowIndex = 0; rowIndex < BOARD_ROW_SIZE; rowIndex++) {
             for (int colIndex = 0; colIndex < BOARD_COL_SIZE; colIndex++) {
-                int count = 0;
-                if (!isLandMineCell(rowIndex, colIndex)) {
-                    if (rowIndex - 1 >= 0 && colIndex - 1 >= 0 && isLandMineCell(rowIndex - 1, colIndex - 1)) {
-                        count++;
-                    }
-                    if (rowIndex - 1 >= 0 && isLandMineCell(rowIndex - 1, colIndex)) {
-                        count++;
-                    }
-                    if (rowIndex - 1 >= 0 && colIndex + 1 < BOARD_COL_SIZE && isLandMineCell(rowIndex - 1, colIndex + 1)) {
-                        count++;
-                    }
-                    if (colIndex - 1 >= 0 && isLandMineCell(rowIndex, colIndex - 1)) {
-                        count++;
-                    }
-                    if (colIndex + 1 < BOARD_COL_SIZE && isLandMineCell(rowIndex, colIndex + 1)) {
-                        count++;
-                    }
-                    if (rowIndex + 1 < BOARD_ROW_SIZE && colIndex - 1 >= 0 && isLandMineCell(rowIndex + 1, colIndex - 1)) {
-                        count++;
-                    }
-                    if (rowIndex + 1 < BOARD_ROW_SIZE && isLandMineCell(rowIndex + 1, colIndex)) {
-                        count++;
-                    }
-                    if (rowIndex + 1 < BOARD_ROW_SIZE && colIndex + 1 < BOARD_COL_SIZE && isLandMineCell(rowIndex + 1, colIndex + 1)) {
-                        count++;
-                    }
-                    NEARBY_LAND_MINE_COUNTS[rowIndex][colIndex] = count;
+                if (isLandMineCell(rowIndex, colIndex)) {
+                    NEARBY_LAND_MINE_COUNTS[rowIndex][colIndex] = 0;
                     continue;
                 }
-                NEARBY_LAND_MINE_COUNTS[rowIndex][colIndex] = 0;
+
+                int count = countNearByLandMines(rowIndex, colIndex);
+                NEARBY_LAND_MINE_COUNTS[rowIndex][colIndex] = count;
             }
         }
+    }
+
+    private static int countNearByLandMines(int rowIndex, int colIndex) {
+        int count = 0;
+        if (rowIndex - 1 >= 0 && colIndex - 1 >= 0 && isLandMineCell(rowIndex - 1, colIndex - 1)) {
+            count++;
+        }
+        if (rowIndex - 1 >= 0 && isLandMineCell(rowIndex - 1, colIndex)) {
+            count++;
+        }
+        if (rowIndex - 1 >= 0 && colIndex + 1 < BOARD_COL_SIZE && isLandMineCell(rowIndex - 1, colIndex + 1)) {
+            count++;
+        }
+        if (colIndex - 1 >= 0 && isLandMineCell(rowIndex, colIndex - 1)) {
+            count++;
+        }
+        if (colIndex + 1 < BOARD_COL_SIZE && isLandMineCell(rowIndex, colIndex + 1)) {
+            count++;
+        }
+        if (rowIndex + 1 < BOARD_ROW_SIZE && colIndex - 1 >= 0 && isLandMineCell(rowIndex + 1, colIndex - 1)) {
+            count++;
+        }
+        if (rowIndex + 1 < BOARD_ROW_SIZE && isLandMineCell(rowIndex + 1, colIndex)) {
+            count++;
+        }
+        if (rowIndex + 1 < BOARD_ROW_SIZE && colIndex + 1 < BOARD_COL_SIZE && isLandMineCell(rowIndex + 1, colIndex + 1)) {
+            count++;
+        }
+        return count;
     }
 
     private static void showGameStartComment() {
