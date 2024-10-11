@@ -12,18 +12,23 @@ public class NumberCell implements Cell {
     @Override
     public boolean hasNearbyLandMineCount() {
         return true;
+
     }
 
-    @Override
-    public String getSign() {
-        if(cellState.isOpened()){
-            return String.valueOf(nearbyLandMineCount);
+    public CellSnapshot getSnapShot() {
+        if(cellState.isChecked()){
+            return CellSnapshot.ofNumber(nearbyLandMineCount);
         }
         if (cellState.isFlagged()) {
-            return FLAG_SIGN;
+            return CellSnapshot.ofFlag();
         }
+        return CellSnapshot.ofUnchecked();
+    }
 
-        return UNCHECKED_SIGN;
+
+    @Override
+    public CellSnapshot getSnapshot() {
+        return null;
     }
 
     @Override

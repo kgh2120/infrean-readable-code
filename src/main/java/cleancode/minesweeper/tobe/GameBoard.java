@@ -66,6 +66,11 @@ public class GameBoard {
         return board[cellPosition.getRowIndex()][cellPosition.getColIndex()];
     }
 
+    public CellSnapshot getSnapshot(CellPosition cellPosition) {
+        Cell cell = findCell(cellPosition);
+        return cell.getSnapshot();
+    }
+
     public boolean isAllCellChecked() {
         Cells cells = Cells.from(board);
 
@@ -150,6 +155,5 @@ public class GameBoard {
         Cell cell = findCell(cellPosition);
         return cell.isOpened();
     }
-
 
 }
