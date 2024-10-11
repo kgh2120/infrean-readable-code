@@ -57,11 +57,6 @@ public class GameBoard {
         board[cellPosition.getRowIndex()][cellPosition.getColIndex()] = cell;
     }
 
-    public String getSign(CellPosition cellPosition) {
-        Cell cell = findCell(cellPosition);
-        return cell.getSign();
-    }
-
     private Cell findCell(CellPosition cellPosition) {
         return board[cellPosition.getRowIndex()][cellPosition.getColIndex()];
     }
