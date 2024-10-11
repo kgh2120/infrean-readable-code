@@ -14,9 +14,9 @@ public class NumberCell implements Cell {
         return true;
 
     }
-
-    public CellSnapshot getSnapShot() {
-        if(cellState.isChecked()){
+    @Override
+    public CellSnapshot getSnapshot() {
+        if(cellState.isOpened()){
             return CellSnapshot.ofNumber(nearbyLandMineCount);
         }
         if (cellState.isFlagged()) {
@@ -26,10 +26,6 @@ public class NumberCell implements Cell {
     }
 
 
-    @Override
-    public CellSnapshot getSnapshot() {
-        return null;
-    }
 
     @Override
     public boolean isLandMine() {

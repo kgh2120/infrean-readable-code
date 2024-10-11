@@ -15,7 +15,7 @@ public class EmptyCell implements Cell {
 
     @Override
     public CellSnapshot getSnapshot() {
-        if(cellState.isChecked()){
+        if(cellState.isOpened()){
             return CellSnapshot.ofEmpty();
         }
         if (cellState.isFlagged()) {

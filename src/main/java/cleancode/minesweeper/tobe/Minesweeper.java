@@ -47,7 +47,7 @@ public class Minesweeper implements GameRunnable, GameInitializable {
                 outputHandler.showExceptionMessage(e);
             } catch (Exception e) { // 의도하지 않은 예외가 터지면 프로그램이 터지니까 이거도 잡는다.
                 outputHandler.showSimpleMessage("프로그램에 문제가 생겼습니다.");// 사용자에게 보여주는 예외 정보
-                // e.printStackTrace(); // 개발자가 확인할 정보. 하지만 실무에서는 안티패턴. 예외 상황에선 로그 시스템으로 남긴다.
+//                 e.printStackTrace(); // 개발자가 확인할 정보. 하지만 실무에서는 안티패턴. 예외 상황에선 로그 시스템으로 남긴다.
             }
         }
     }

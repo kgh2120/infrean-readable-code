@@ -4,11 +4,11 @@ import java.util.Objects;
 
 public class CellSnapshot {
 
-    private final CellSnapshotStatus staus;
+    private final CellSnapshotStatus status;
     private final int nearbyLandMineCount;
 
-    private CellSnapshot(CellSnapshotStatus staus, int nearbyLandMineCount) {
-        this.staus = staus;
+    private CellSnapshot(CellSnapshotStatus status, int nearbyLandMineCount) {
+        this.status = status;
         this.nearbyLandMineCount = nearbyLandMineCount;
     }
 
@@ -32,8 +32,8 @@ public class CellSnapshot {
         return of(CellSnapshotStatus.UNCHECKED, 0);
     }
 
-    public CellSnapshotStatus getStaus() {
-        return staus;
+    public boolean isSameStatus(CellSnapshotStatus cellSnapshotStatus) {
+        return this.status == cellSnapshotStatus;
     }
 
     public int getNearbyLandMineCount() {
@@ -45,11 +45,11 @@ public class CellSnapshot {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CellSnapshot snapshot = (CellSnapshot) o;
-        return nearbyLandMineCount == snapshot.nearbyLandMineCount && staus == snapshot.staus;
+        return nearbyLandMineCount == snapshot.nearbyLandMineCount && status == snapshot.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(staus, nearbyLandMineCount);
+        return Objects.hash(status, nearbyLandMineCount);
     }
 }
