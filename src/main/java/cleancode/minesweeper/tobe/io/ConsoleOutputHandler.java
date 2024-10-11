@@ -2,6 +2,7 @@ package cleancode.minesweeper.tobe.io;
 
 import cleancode.minesweeper.tobe.GameBoard;
 import cleancode.minesweeper.tobe.GameException;
+import cleancode.minesweeper.tobe.position.CellPosition;
 
 import java.util.List;
 import java.util.stream.IntStream;
@@ -24,7 +25,8 @@ public class ConsoleOutputHandler implements OutputHandler {
         for (int rowIndex = 0; rowIndex < board.getRowSize(); rowIndex++) {
             System.out.printf("%2d  ", rowIndex + 1);
             for (int colIndex = 0; colIndex < board.getColSize(); colIndex++) {
-                System.out.print(board.getSign(rowIndex, colIndex) + " "); // 보드를 그리는 행위는 MinesweeperGame이 가지고 있음.
+                CellPosition cellPosition = CellPosition.of(rowIndex, colIndex);
+                System.out.print(board.getSign(cellPosition) + " "); // 보드를 그리는 행위는 MinesweeperGame이 가지고 있음.
                 // Cell에게 그려줘~ 하는건 관심사 분리가 안되는 것. Cell은 데이터를 줘, 내가(Mine~)이 그려줄께 하는게 맞음.
             }
             System.out.println();
